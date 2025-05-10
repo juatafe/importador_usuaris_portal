@@ -7,7 +7,7 @@ import hashlib
 
 class ImportUsersWizard(models.TransientModel):
     _name = 'import.users.wizard'
-    _description = 'Importar usuaris del portal des d'Excel'
+    _description = 'Importar usuaris del portal des d\'Excel'
 
     file = fields.Binary(string="Fitxer Excel", required=True)
     filename = fields.Char(string="Nom del fitxer")
