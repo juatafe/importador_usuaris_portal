@@ -1,0 +1,15 @@
+./scanner_runner.py --user scanner@fallaportal.es --password 'Pa$$w0rd' --barcode 8990688493046
+
+
+
+
+Per defecte (contra provestalens.es):
+./scanner_runner.py --user scanner@fallaportal.es --password 'Pa$$w0rd' --barcode 8990688493046
+
+En local (Odoo en 8069):
+./scanner_runner.py --base-url http://localhost:8069/scanner/api \
+  --user scanner@fallaportal.es --password 'Pa$$w0rd'
+
+
+Amb debug (mostra els curl exactes):
+./scanner_runner.py --user scanner@fallaportal.es --password 'Pa$$w0rd' --verbose
