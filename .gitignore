@@ -1,0 +1,20 @@
+# Backups locals
+backups/
+*.sql
+*.dump
+*.bak
+*.backup
+
+# Fitxers sensibles o temporals locals
+admin.txt
+cookies.txt
+*.cookie
+*.cookies
+
+# Python / Odoo
+__pycache__/
+*.pyc
+*.pyo
+
+# Logs
+*.log
