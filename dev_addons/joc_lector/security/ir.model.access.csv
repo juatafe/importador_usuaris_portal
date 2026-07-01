@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_joc_lector_centre_professor,joc.lector.centre professor,model_joc_lector_centre,joc_lector.group_joc_lector_professor,1,0,0,0
+access_joc_lector_classe_professor,joc.lector.classe professor,model_joc_lector_classe,joc_lector.group_joc_lector_professor,1,1,1,0
+access_joc_lector_alumne_professor,joc.lector.alumne professor,model_joc_lector_alumne,joc_lector.group_joc_lector_professor,1,1,1,0
+access_joc_lector_matricula_professor,joc.lector.matricula professor,model_joc_lector_matricula,joc_lector.group_joc_lector_professor,1,1,1,0
+access_joc_lector_passaport_professor,joc.lector.passaport professor,model_joc_lector_passaport,joc_lector.group_joc_lector_professor,1,1,1,0
+access_joc_lector_centre_admin,joc.lector.centre admin,model_joc_lector_centre,joc_lector.group_joc_lector_admin,1,1,1,1
+access_joc_lector_classe_admin,joc.lector.classe admin,model_joc_lector_classe,joc_lector.group_joc_lector_admin,1,1,1,1
+access_joc_lector_alumne_admin,joc.lector.alumne admin,model_joc_lector_alumne,joc_lector.group_joc_lector_admin,1,1,1,1
+access_joc_lector_matricula_admin,joc.lector.matricula admin,model_joc_lector_matricula,joc_lector.group_joc_lector_admin,1,1,1,1
+access_joc_lector_passaport_admin,joc.lector.passaport admin,model_joc_lector_passaport,joc_lector.group_joc_lector_admin,1,1,1,1

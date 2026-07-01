@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_joc_lector_alumne_tree" model="ir.ui.view">
+        <field name="name">joc.lector.alumne.tree</field>
+        <field name="model">joc.lector.alumne</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="current_classe_id"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_joc_lector_alumne_form" model="ir.ui.view">
+        <field name="name">joc.lector.alumne.form</field>
+        <field name="model">joc.lector.alumne</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="app_uid" readonly="1"/>
+                            <field name="current_classe_id" readonly="1"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="avatar_128" widget="image"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Matrícules">
+                            <field name="matricula_ids">
+                                <tree>
+                                    <field name="classe_id"/>
+                                    <field name="curs_academic"/>
+                                    <field name="date_start"/>
+                                    <field name="date_end"/>
+                                    <field name="active"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_joc_lector_alumne" model="ir.actions.act_window">
+        <field name="name">Alumnat</field>
+        <field name="res_model">joc.lector.alumne</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

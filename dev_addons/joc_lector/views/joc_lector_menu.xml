@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem
+        id="menu_joc_lector_root"
+        name="Joc Lector"
+        sequence="30"
+        groups="joc_lector.group_joc_lector_professor,joc_lector.group_joc_lector_admin"/>
+
+    <menuitem
+        id="menu_joc_lector_config"
+        name="Configuració"
+        parent="menu_joc_lector_root"
+        sequence="10"/>
+
+    <menuitem
+        id="menu_joc_lector_centre"
+        name="Centres"
+        parent="menu_joc_lector_config"
+        action="action_joc_lector_centre"
+        sequence="10"/>
+
+    <menuitem
+        id="menu_joc_lector_classe"
+        name="Classes"
+        parent="menu_joc_lector_root"
+        action="action_joc_lector_classe"
+        sequence="20"/>
+
+    <menuitem
+        id="menu_joc_lector_alumne"
+        name="Alumnat"
+        parent="menu_joc_lector_root"
+        action="action_joc_lector_alumne"
+        sequence="30"/>
+
+    <menuitem
+        id="menu_joc_lector_passaport"
+        name="Passaports lectors"
+        parent="menu_joc_lector_root"
+        action="action_joc_lector_passaport"
+        sequence="40"/>
+</odoo>

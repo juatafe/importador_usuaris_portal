@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_joc_lector_classe_tree" model="ir.ui.view">
+        <field name="name">joc.lector.classe.tree</field>
+        <field name="model">joc.lector.classe</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="centre_id"/>
+                <field name="curs_academic"/>
+                <field name="access_code"/>
+                <field name="alumne_count"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_joc_lector_classe_form" model="ir.ui.view">
+        <field name="name">joc.lector.classe.form</field>
+        <field name="model">joc.lector.classe</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="centre_id"/>
+                            <field name="curs_academic"/>
+                        </group>
+                        <group>
+                            <field name="access_code"/>
+                            <field name="active"/>
+                            <field name="alumne_count"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Professorat">
+                            <field name="professor_ids" widget="many2many_tags"/>
+                        </page>
+                        <page string="Alumnat">
+                            <field name="matricula_ids">
+                                <tree editable="bottom">
+                                    <field name="alumne_id"/>
+                                    <field name="date_start"/>
+                                    <field name="date_end"/>
+                                    <field name="active"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_joc_lector_classe" model="ir.actions.act_window">
+        <field name="name">Classes</field>
+        <field name="res_model">joc.lector.classe</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

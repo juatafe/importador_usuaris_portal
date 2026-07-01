@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_joc_lector_passaport_tree" model="ir.ui.view">
+        <field name="name">joc.lector.passaport.tree</field>
+        <field name="model">joc.lector.passaport</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="alumne_id"/>
+                <field name="punts"/>
+                <field name="nivell"/>
+                <field name="llibres_llegits"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_joc_lector_passaport_form" model="ir.ui.view">
+        <field name="name">joc.lector.passaport.form</field>
+        <field name="model">joc.lector.passaport</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="alumne_id"/>
+                        <field name="punts"/>
+                        <field name="nivell"/>
+                        <field name="llibres_llegits"/>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_joc_lector_passaport" model="ir.actions.act_window">
+        <field name="name">Passaports lectors</field>
+        <field name="res_model">joc.lector.passaport</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>
