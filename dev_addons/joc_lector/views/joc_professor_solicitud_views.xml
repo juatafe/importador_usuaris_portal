@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_joc_lector_professor_solicitud_tree" model="ir.ui.view">
+        <field name="name">joc.lector.professor.solicitud.tree</field>
+        <field name="model">joc.lector.professor.solicitud</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="create_date"/>
+                <field name="centre_id"/>
+                <field name="professor_nom"/>
+                <field name="professor_email"/>
+                <field name="estat"/>
+                <field name="token_expires"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_joc_lector_professor_solicitud_form" model="ir.ui.view">
+        <field name="name">joc.lector.professor.solicitud.form</field>
+        <field name="model">joc.lector.professor.solicitud</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="centre_id"/>
+                            <field name="centre_email_oficial" readonly="1"/>
+                            <field name="municipi"/>
+                            <field name="estat"/>
+                        </group>
+                        <group>
+                            <field name="professor_nom"/>
+                            <field name="professor_email"/>
+                            <field name="token_expires"/>
+                            <field name="token_used"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="notes"/>
+                        <field name="motiu_rebuig"/>
+                    </group>
+                    <group>
+                        <field name="decidida_per_centre_id"/>
+                        <field name="professor_id"/>
+                        <field name="decided_at"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_joc_lector_professor_solicitud" model="ir.actions.act_window">
+        <field name="name">Sol.licituds professorat</field>
+        <field name="res_model">joc.lector.professor.solicitud</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

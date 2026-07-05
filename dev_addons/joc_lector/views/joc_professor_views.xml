@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_joc_lector_professor_tree" model="ir.ui.view">
+        <field name="name">joc.lector.professor.tree</field>
+        <field name="model">joc.lector.professor</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="centre_id"/>
+                <field name="rol"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_joc_lector_professor_form" model="ir.ui.view">
+        <field name="name">joc.lector.professor.form</field>
+        <field name="model">joc.lector.professor</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="user_id"/>
+                            <field name="centre_id"/>
+                            <field name="rol"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="classe_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Historic centres">
+                            <field name="centre_history_ids">
+                                <tree>
+                                    <field name="date_start"/>
+                                    <field name="date_end"/>
+                                    <field name="centre_id"/>
+                                    <field name="state"/>
+                                    <field name="solicitud_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_joc_lector_professor" model="ir.actions.act_window">
+        <field name="name">Professorat</field>
+        <field name="res_model">joc.lector.professor</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

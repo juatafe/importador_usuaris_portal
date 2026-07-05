@@ -1,0 +1,954 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="public_layout" name="Joc Lector Public Layout">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <section class="container py-4">
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-2">
+                        <div>
+                            <h1 class="mb-1">
+                                <a href="/lectures" class="text-decoration-none text-reset">Joc Lector</a>
+                            </h1>
+                            <p class="text-muted mb-0">Llibres, lectures i ressenyes del projecte lector.</p>
+                        </div>
+                        <nav class="d-flex flex-wrap gap-2">
+                            <a class="btn btn-outline-primary btn-sm" href="/lectures">Inici</a>
+                            <a class="btn btn-outline-primary btn-sm" href="/lectures/llibres">Llibres</a>
+                            <a class="btn btn-outline-primary btn-sm" href="/lectures/top">Top lectures</a>
+                            <a class="btn btn-outline-secondary btn-sm" href="/lectures/privacitat">Privacitat</a>
+                        </nav>
+                    </div>
+
+                    <t t-out="0"/>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <template id="app_layout" name="Joc Lector App Layout">
+        <html lang="ca">
+            <head>
+                <meta charset="utf-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <title>Joc Lector</title>
+                <style>
+                    :root {
+                        --jl-bg: #f7f2e8;
+                        --jl-ink: #0f3f2b;
+                        --jl-green: #2f8a57;
+                        --jl-green-dark: #1f6f43;
+                        --jl-mint: #dfead6;
+                        --jl-card: #fffdf5;
+                        --jl-line: #d8e4d2;
+                        --jl-muted: #7b776e;
+                        --jl-gold: #f7c84b;
+                    }
+                    * { box-sizing: border-box; }
+                    body {
+                        margin: 0;
+                        min-height: 100vh;
+                        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+                        color: var(--jl-ink);
+                        background:
+                            radial-gradient(circle at -6% -4%, rgba(173, 203, 143, 0.36) 0 120px, transparent 121px),
+                            radial-gradient(circle at 102% 102%, rgba(173, 203, 143, 0.36) 0 170px, transparent 171px),
+                            var(--jl-bg);
+                    }
+                    a { color: inherit; }
+                    .jl-page {
+                        width: min(920px, calc(100% - 32px));
+                        margin: 0 auto;
+                        padding: 28px 0 36px;
+                    }
+                    .jl-topbar {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        gap: 16px;
+                        margin-bottom: 28px;
+                    }
+                    .jl-brand {
+                        display: flex;
+                        align-items: center;
+                        gap: 12px;
+                        text-decoration: none;
+                    }
+                    .jl-logo {
+                        width: 52px;
+                        height: 52px;
+                        border-radius: 18px;
+                        display: grid;
+                        place-items: center;
+                        background: var(--jl-green);
+                        color: white;
+                        font-size: 29px;
+                        font-weight: 800;
+                        box-shadow: 0 12px 28px rgba(31, 111, 67, 0.22);
+                    }
+                    .jl-brand-title {
+                        font-size: 26px;
+                        font-weight: 800;
+                        letter-spacing: 0;
+                        line-height: 1;
+                    }
+                    .jl-brand-subtitle {
+                        margin-top: 5px;
+                        color: var(--jl-muted);
+                        font-size: 14px;
+                    }
+                    .jl-nav {
+                        display: flex;
+                        gap: 10px;
+                        flex-wrap: wrap;
+                        justify-content: flex-end;
+                    }
+                    .jl-nav a {
+                        padding: 10px 14px;
+                        border-radius: 999px;
+                        text-decoration: none;
+                        background: rgba(255, 253, 245, 0.78);
+                        border: 1px solid var(--jl-line);
+                        font-weight: 700;
+                        font-size: 14px;
+                    }
+                    .jl-hero {
+                        text-align: center;
+                        padding: 22px 0 28px;
+                    }
+                    .jl-hero-icon {
+                        display: inline-grid;
+                        place-items: center;
+                        width: 92px;
+                        height: 92px;
+                        border-radius: 32px;
+                        background: white;
+                        box-shadow: 0 14px 32px rgba(31, 111, 67, 0.16);
+                        color: var(--jl-green);
+                        font-size: 54px;
+                        margin-bottom: 18px;
+                    }
+                    .jl-hero h1 {
+                        margin: 0;
+                        font-size: clamp(42px, 8vw, 68px);
+                        line-height: 0.95;
+                        font-weight: 900;
+                        letter-spacing: 0;
+                    }
+                    .jl-hero p {
+                        max-width: 620px;
+                        margin: 16px auto 0;
+                        color: var(--jl-muted);
+                        font-size: 18px;
+                        line-height: 1.5;
+                    }
+                    .jl-card {
+                        background: rgba(255, 253, 245, 0.92);
+                        border: 1px solid var(--jl-line);
+                        border-radius: 28px;
+                        box-shadow: 0 16px 38px rgba(50, 70, 48, 0.12);
+                    }
+                    .jl-panel {
+                        padding: 28px;
+                    }
+                    .jl-section-title {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        gap: 14px;
+                        margin: 30px 0 14px;
+                    }
+                    .jl-section-title h2 {
+                        margin: 0;
+                        font-size: 24px;
+                    }
+                    .jl-list {
+                        display: grid;
+                        gap: 12px;
+                    }
+                    .jl-row {
+                        display: grid;
+                        grid-template-columns: auto 1fr auto;
+                        align-items: center;
+                        gap: 14px;
+                        padding: 16px;
+                        text-decoration: none;
+                    }
+                    .jl-rank {
+                        width: 42px;
+                        height: 42px;
+                        border-radius: 16px;
+                        display: grid;
+                        place-items: center;
+                        background: var(--jl-mint);
+                        color: var(--jl-green-dark);
+                        font-weight: 900;
+                    }
+                    .jl-row-title {
+                        font-weight: 850;
+                        font-size: 17px;
+                    }
+                    .jl-row-subtitle {
+                        margin-top: 4px;
+                        color: var(--jl-muted);
+                        font-size: 14px;
+                    }
+                    .jl-pill {
+                        padding: 8px 11px;
+                        border-radius: 999px;
+                        background: #e7f1e2;
+                        color: var(--jl-green-dark);
+                        font-weight: 850;
+                        white-space: nowrap;
+                        font-size: 13px;
+                    }
+                    .jl-pill.gold {
+                        background: #fff1bb;
+                        color: #775400;
+                    }
+                    .jl-actions {
+                        display: flex;
+                        gap: 12px;
+                        flex-wrap: wrap;
+                        align-items: center;
+                        margin-top: 24px;
+                    }
+                    .jl-button {
+                        border: 0;
+                        border-radius: 22px;
+                        padding: 15px 20px;
+                        background: var(--jl-green);
+                        color: white;
+                        font-weight: 900;
+                        font-size: 16px;
+                        text-decoration: none;
+                        cursor: pointer;
+                        box-shadow: 0 12px 26px rgba(47, 138, 87, 0.24);
+                    }
+                    .jl-button.secondary {
+                        color: var(--jl-green-dark);
+                        background: #e8f1e3;
+                        box-shadow: none;
+                    }
+                    .jl-note {
+                        border-radius: 22px;
+                        background: #eef5e9;
+                        border: 1px solid var(--jl-line);
+                        padding: 16px;
+                        color: #315640;
+                        line-height: 1.5;
+                    }
+                    .jl-search {
+                        display: grid;
+                        grid-template-columns: 1fr auto;
+                        gap: 10px;
+                        margin-top: 18px;
+                    }
+                    .jl-input {
+                        min-width: 0;
+                        width: 100%;
+                        border: 1px solid var(--jl-line);
+                        border-radius: 20px;
+                        padding: 15px 16px;
+                        background: white;
+                        color: var(--jl-ink);
+                        font: inherit;
+                        font-weight: 700;
+                        outline: none;
+                    }
+                    .jl-copy {
+                        color: var(--jl-muted);
+                        line-height: 1.62;
+                        font-size: 17px;
+                    }
+                    .jl-book-cover {
+                        width: 100%;
+                        aspect-ratio: 3 / 4;
+                        border-radius: 24px;
+                        object-fit: cover;
+                        border: 1px solid var(--jl-line);
+                        background: #eef5e9;
+                        box-shadow: 0 16px 32px rgba(50, 70, 48, 0.13);
+                    }
+                    .jl-book-cover.placeholder {
+                        display: grid;
+                        place-items: center;
+                        color: var(--jl-green);
+                        font-size: 72px;
+                    }
+                    .jl-status {
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 8px;
+                        border-radius: 999px;
+                        padding: 8px 12px;
+                        background: #e8f1e3;
+                        color: var(--jl-green-dark);
+                        font-weight: 850;
+                    }
+                    .jl-footer {
+                        margin-top: 28px;
+                        text-align: center;
+                        color: var(--jl-muted);
+                        font-size: 14px;
+                    }
+                    @media (max-width: 680px) {
+                        .jl-page { width: min(100% - 20px, 640px); padding-top: 18px; }
+                        .jl-topbar { align-items: flex-start; }
+                        .jl-nav { display: none; }
+                        .jl-brand-title { font-size: 22px; }
+                        .jl-panel { padding: 20px; }
+                        .jl-row { grid-template-columns: auto 1fr; }
+                        .jl-pill { grid-column: 2; justify-self: start; }
+                        .jl-search { grid-template-columns: 1fr; }
+                    }
+                </style>
+            </head>
+            <body>
+                <main class="jl-page">
+                    <header class="jl-topbar">
+                        <a class="jl-brand" href="/lectures">
+                            <span class="jl-logo">▰</span>
+                            <span>
+                                <span class="jl-brand-title">Joc Lector</span>
+                                <span class="jl-brand-subtitle">Llig, descobreix, aprén i gaudeix.</span>
+                            </span>
+                        </a>
+                        <nav class="jl-nav">
+                            <a href="/lectures">Inici</a>
+                            <a href="/lectures/app/">App</a>
+                            <a href="/lectures/llibres">Llibres</a>
+                            <a href="/lectures/top">Top lectures</a>
+                            <a href="/lectures/privacitat">Privacitat</a>
+                        </nav>
+                    </header>
+                    <t t-out="0"/>
+                    <footer class="jl-footer">
+                        <span>Privacitat i ús educatiu</span>
+                    </footer>
+                </main>
+            </body>
+        </html>
+    </template>
+
+    <template id="public_home" name="Joc Lector - Inici">
+        <t t-call="joc_lector.app_layout">
+            <section class="jl-hero">
+                <div class="jl-hero-icon">📚</div>
+                <h1>Joc Lector</h1>
+                <p>Llig, descobreix, aprén i gaudeix. Un espai públic amb lectures i ressenyes aprovades, sempre sense mostrar dades personals de l'alumnat.</p>
+                <div class="jl-actions" style="justify-content: center;">
+                    <a class="jl-button" href="/lectures/app/">Entrar a l'app</a>
+                    <a class="jl-button secondary" href="/lectures/llibres">Cataleg</a>
+                </div>
+            </section>
+
+            <section class="jl-card jl-panel">
+                <div class="jl-list" style="grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));">
+                    <div class="jl-card" style="padding: 18px; text-align: center;">
+                        <div style="font-size: 34px; font-weight: 900;" t-esc="stats.get('llibres', 0)"/>
+                        <div style="color: var(--jl-muted); font-weight: 700;">llibres</div>
+                    </div>
+                    <div class="jl-card" style="padding: 18px; text-align: center;">
+                        <div style="font-size: 34px; font-weight: 900;" t-esc="stats.get('lectures', 0)"/>
+                        <div style="color: var(--jl-muted); font-weight: 700;">lectures acabades</div>
+                    </div>
+                    <div class="jl-card" style="padding: 18px; text-align: center;">
+                        <div style="font-size: 34px; font-weight: 900;" t-esc="stats.get('ressenyes', 0)"/>
+                        <div style="color: var(--jl-muted); font-weight: 700;">ressenyes publicades</div>
+                    </div>
+                </div>
+
+                <div class="jl-section-title">
+                    <h2>Llibres destacats</h2>
+                    <a class="jl-button secondary" href="/lectures/llibres">Vore tots</a>
+                </div>
+                <div class="jl-list">
+                    <t t-if="llibres_destacats">
+                        <t t-foreach="llibres_destacats" t-as="llibre">
+                            <a t-att-href="'/lectures/llibre/%s' % llibre.slug" class="jl-row jl-card">
+                                <span class="jl-rank">📖</span>
+                                <span>
+                                    <span class="jl-row-title" t-esc="llibre.name"/>
+                                    <span class="jl-row-subtitle" t-esc="llibre.autor or 'Autor no indicat'"/>
+                                </span>
+                                <span class="jl-pill">
+                                    <t t-esc="llibre.lectura_count"/> lectures
+                                </span>
+                            </a>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <div class="jl-note">Encara no hi ha llibres publicats.</div>
+                    </t>
+                </div>
+            </section>
+
+            <section class="jl-card jl-panel" style="margin-top: 18px;">
+                <div class="jl-section-title" style="margin-top: 0;">
+                    <h2>Ressenyes recents</h2>
+                    <span class="jl-status">Anonimitzades</span>
+                </div>
+                <div class="jl-list">
+                    <t t-if="ressenyes_recents">
+                        <t t-foreach="ressenyes_recents" t-as="ressenya">
+                            <a t-att-href="'/lectures/ressenya/%s' % ressenya.slug" class="jl-card" style="padding: 18px; text-decoration: none;">
+                                <div class="jl-row-title" t-esc="ressenya.llibre_id.name"/>
+                                <div class="jl-row-subtitle" t-esc="ressenya.text"/>
+                                <div style="margin-top: 12px;">
+                                    <span class="jl-pill gold">
+                                        <t t-esc="ressenya.valoracio"/> / 5
+                                    </span>
+                                </div>
+                            </a>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <div class="jl-note">Encara no hi ha ressenyes aprovades.</div>
+                    </t>
+                </div>
+            </section>
+        </t>
+    </template>
+
+    <template id="public_app" name="Joc Lector - App">
+        <t t-call="joc_lector.app_layout">
+            <section class="jl-hero">
+                <div class="jl-hero-icon">▣</div>
+                <h1>App Joc Lector</h1>
+                <p>Accés a l'experiència de passaport lector, gestió docent i administració del centre.</p>
+            </section>
+
+            <section class="jl-card jl-panel">
+                <div class="jl-list">
+                    <div class="jl-row jl-card">
+                        <span class="jl-rank">📖</span>
+                        <span>
+                            <span class="jl-row-title">Passaport lector</span>
+                            <span class="jl-row-subtitle">Lectures, ressenyes i reptes de l'alumnat</span>
+                        </span>
+                        <span class="jl-pill">App</span>
+                    </div>
+                    <a class="jl-row jl-card" href="/lectures">
+                        <span class="jl-rank">⌂</span>
+                        <span>
+                            <span class="jl-row-title">Web pública</span>
+                            <span class="jl-row-subtitle">Catàleg, top lectures i privacitat</span>
+                        </span>
+                        <span class="jl-pill">Public</span>
+                    </a>
+                </div>
+                <div class="jl-note" style="margin-top: 18px;">
+                    Si l'app encara no carrega en este dispositiu, torna a Joc Lector i accedeix des de l'enllaç facilitat pel centre.
+                </div>
+            </section>
+        </t>
+    </template>
+
+    <template id="public_llibres" name="Joc Lector - Llibres">
+        <t t-call="joc_lector.app_layout">
+            <section class="jl-hero">
+                <div class="jl-hero-icon">📚</div>
+                <h1>Cataleg</h1>
+                <p>Explora llibres del projecte lector i consulta lectures, valoracions i ressenyes aprovades.</p>
+            </section>
+
+            <section class="jl-card jl-panel">
+                <form method="get" action="/lectures/llibres" class="jl-search">
+                    <input type="search" name="q" class="jl-input" placeholder="Buscar llibre, autor o categoria" t-att-value="q"/>
+                    <button class="jl-button" type="submit">Buscar</button>
+                </form>
+
+                <t t-if="q">
+                    <p class="jl-copy">Resultats per a: <strong t-esc="q"/></p>
+                </t>
+
+                <div class="jl-section-title">
+                    <h2>Llibres</h2>
+                    <span class="jl-status"><t t-esc="len(llibres)"/> resultats</span>
+                </div>
+
+                <div class="jl-list">
+                    <t t-if="llibres">
+                        <t t-foreach="llibres" t-as="llibre">
+                            <a t-att-href="'/lectures/llibre/%s' % llibre.slug" class="jl-row jl-card">
+                                <span class="jl-rank">📖</span>
+                                <span>
+                                    <span class="jl-row-title" t-esc="llibre.name"/>
+                                    <span class="jl-row-subtitle">
+                                        <t t-esc="llibre.autor or 'Autor no indicat'"/>
+                                        <t t-if="llibre.categoria"> · <t t-esc="llibre.categoria"/></t>
+                                    </span>
+                                </span>
+                                <span class="jl-pill">
+                                    <t t-esc="llibre.lectura_count"/> lectures
+                                </span>
+                            </a>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <div class="jl-note">No s'han trobat llibres amb estos criteris.</div>
+                    </t>
+                </div>
+            </section>
+        </t>
+    </template>
+
+    <template id="public_top" name="Joc Lector - Top">
+        <t t-call="joc_lector.app_layout">
+            <section class="jl-hero">
+                <div class="jl-hero-icon">📖</div>
+                <h1>Top lectures</h1>
+                <p>Llibres que estan movent els passaports lectors, amb dades agregades i sense exposar alumnat.</p>
+            </section>
+
+            <section class="jl-card jl-panel">
+                <div class="jl-section-title" style="margin-top: 0;">
+                    <h2>Més llegits</h2>
+                    <span class="jl-status">Lectures validades</span>
+                </div>
+                <div class="jl-list">
+                    <t t-if="llibres_mes_llegits">
+                        <t t-foreach="llibres_mes_llegits" t-as="llibre">
+                            <a t-att-href="'/lectures/llibre/%s' % llibre.slug" class="jl-row jl-card">
+                                <span class="jl-rank" t-esc="llibre_index + 1"/>
+                                <span>
+                                    <span class="jl-row-title" t-esc="llibre.name"/>
+                                    <span class="jl-row-subtitle" t-esc="llibre.autor or 'Autor no indicat'"/>
+                                </span>
+                                <span class="jl-pill">
+                                    <t t-esc="llibre.lectura_count"/> lectures
+                                </span>
+                            </a>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <div class="jl-note">Encara no hi ha lectures suficients per mostrar un top.</div>
+                    </t>
+                </div>
+            </section>
+
+            <section class="jl-card jl-panel" style="margin-top: 18px;">
+                <div class="jl-section-title" style="margin-top: 0;">
+                    <h2>Més valorats</h2>
+                    <span class="jl-status">Ressenyes aprovades</span>
+                </div>
+                <div class="jl-list">
+                    <t t-if="llibres_mes_valorats">
+                        <t t-foreach="llibres_mes_valorats" t-as="llibre">
+                            <a t-att-href="'/lectures/llibre/%s' % llibre.slug" class="jl-row jl-card">
+                                <span class="jl-rank" t-esc="llibre_index + 1"/>
+                                <span>
+                                    <span class="jl-row-title" t-esc="llibre.name"/>
+                                    <span class="jl-row-subtitle" t-esc="llibre.autor or 'Autor no indicat'"/>
+                                </span>
+                                <span class="jl-pill gold">
+                                    <t t-esc="'%.1f' % llibre.valoracio_mitjana"/> / 5
+                                </span>
+                            </a>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <div class="jl-note">Encara no hi ha valoracions aprovades per mostrar un top.</div>
+                    </t>
+                </div>
+            </section>
+        </t>
+    </template>
+
+    <template id="public_llibre_detail" name="Joc Lector - Detall llibre">
+        <t t-call="joc_lector.app_layout">
+            <section class="jl-card jl-panel">
+                <div style="display: grid; grid-template-columns: minmax(180px, 260px) 1fr; gap: 26px; align-items: start;">
+                    <div>
+                        <t t-if="llibre.portada_1920">
+                            <img t-att-src="'/web/image/joc.lector.llibre/%s/portada_1920' % llibre.id" class="jl-book-cover" t-att-alt="llibre.name"/>
+                        </t>
+                        <t t-else="">
+                            <div class="jl-book-cover placeholder">📖</div>
+                        </t>
+                    </div>
+                    <div>
+                        <span class="jl-status">Fitxa de llibre</span>
+                        <h1 style="font-size: clamp(34px, 6vw, 54px); line-height: 1; margin: 16px 0 8px;" t-esc="llibre.name"/>
+                        <p class="jl-copy" style="margin-top: 0;" t-esc="llibre.autor or 'Autor no indicat'"/>
+                        <div class="jl-actions" style="margin-top: 10px;">
+                            <span class="jl-pill">
+                                <t t-esc="llibre.lectura_count"/> lectures
+                            </span>
+                            <span class="jl-pill gold">
+                                <t t-esc="'%.1f' % llibre.valoracio_mitjana"/> / 5
+                            </span>
+                            <span t-if="llibre.categoria" class="jl-pill" t-esc="llibre.categoria"/>
+                            <span t-if="llibre.edat_recomanada" class="jl-pill" t-esc="llibre.edat_recomanada"/>
+                        </div>
+                        <p t-if="llibre.resum" class="jl-copy" t-esc="llibre.resum"/>
+                        <p t-if="llibre.isbn" class="jl-copy">
+                            ISBN: <strong t-esc="llibre.isbn"/>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="jl-card jl-panel" style="margin-top: 18px;">
+                <div class="jl-section-title" style="margin-top: 0;">
+                    <h2>Ressenyes aprovades</h2>
+                    <span class="jl-status">Anonimitzades</span>
+                </div>
+                <div class="jl-list">
+                    <t t-if="ressenyes">
+                        <t t-foreach="ressenyes" t-as="ressenya">
+                            <a t-att-href="'/lectures/ressenya/%s' % ressenya.slug" class="jl-card" style="padding: 18px; text-decoration: none;">
+                                <div class="jl-row-title" t-esc="ressenya.llibre_id.name"/>
+                                <div class="jl-row-subtitle" t-esc="ressenya.text"/>
+                                <div style="margin-top: 12px;">
+                                    <span class="jl-pill gold">
+                                        <t t-esc="ressenya.valoracio"/> / 5
+                                    </span>
+                                    <span t-if="ressenya.curs_academic" class="jl-pill">
+                                        Curs <t t-esc="ressenya.curs_academic"/>
+                                    </span>
+                                </div>
+                            </a>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <div class="jl-note">Encara no hi ha ressenyes aprovades per a este llibre.</div>
+                    </t>
+                </div>
+            </section>
+            <style>
+                @media (max-width: 720px) {
+                    .jl-card.jl-panel > div[style*="grid-template-columns"] {
+                        grid-template-columns: 1fr !important;
+                    }
+                    .jl-book-cover {
+                        max-width: 240px;
+                        margin: 0 auto;
+                    }
+                }
+            </style>
+        </t>
+    </template>
+
+    <template id="public_ressenya_detail" name="Joc Lector - Detall ressenya">
+        <t t-call="joc_lector.app_layout">
+            <article class="jl-card jl-panel">
+                <span class="jl-status">Ressenya anonimitzada</span>
+                <h1 style="font-size: clamp(34px, 6vw, 54px); line-height: 1; margin: 16px 0 8px;">
+                    <a t-att-href="'/lectures/llibre/%s' % llibre.slug" style="text-decoration: none;" t-esc="llibre.name"/>
+                </h1>
+                <p class="jl-copy" style="margin-top: 0;" t-esc="llibre.autor or 'Autor no indicat'"/>
+
+                <div class="jl-actions" style="margin-top: 10px;">
+                    <span class="jl-pill gold">
+                        <t t-esc="ressenya.valoracio"/> / 5
+                    </span>
+                    <span t-if="ressenya.curs_academic" class="jl-pill">
+                        Curs <t t-esc="ressenya.curs_academic"/>
+                    </span>
+                </div>
+
+                <p class="jl-copy" style="font-size: 20px;" t-esc="ressenya.text"/>
+
+                <div class="jl-note">
+                    Esta ressenya es publica de manera anonimitzada. No es mostra el nom de l'alumne ni dades personals.
+                </div>
+
+                <div class="jl-actions">
+                    <a class="jl-button secondary" t-att-href="'/lectures/llibre/%s' % llibre.slug">Tornar al llibre</a>
+                    <a class="jl-button secondary" href="/lectures">Tornar a Joc Lector</a>
+                </div>
+            </article>
+        </t>
+    </template>
+
+    <template id="public_not_found" name="Joc Lector - No trobat">
+        <t t-call="joc_lector.app_layout">
+            <section class="jl-hero">
+                <div class="jl-hero-icon">?</div>
+                <h1 t-esc="title"/>
+                <p t-esc="message"/>
+            </section>
+
+            <article class="jl-card jl-panel">
+                <div class="jl-note">
+                    Continues dins de Joc Lector. Pots tornar a l'inici o obrir el cataleg per buscar el contingut public disponible.
+                </div>
+                <div class="jl-actions">
+                    <a class="jl-button" href="/lectures">Inici</a>
+                    <a class="jl-button secondary" href="/lectures/llibres">Cataleg de llibres</a>
+                    <a class="jl-button secondary" href="/lectures/privacitat">Privacitat</a>
+                </div>
+            </article>
+        </t>
+    </template>
+
+    <template id="public_privacitat" name="Joc Lector - Privacitat">
+        <t t-call="joc_lector.app_layout">
+            <section class="jl-hero">
+                <div class="jl-hero-icon">🔒</div>
+                <h1>Privacitat</h1>
+                <p>Ús educatiu, dades protegides i publicació anonimitzada.</p>
+            </section>
+
+            <article class="jl-card jl-panel">
+                <div>
+                    <span class="jl-status">Última actualització: 02/07/2026</span>
+                    <h2>Política de privacitat del Joc Lector</h2>
+
+                    <h3 class="h5 mt-4">1. Responsable del tractament</h3>
+                    <p>
+                        Joc Lector es una aplicacio desenvolupada per Juan Bautista Talens i Felis,
+                        professor de sistemes i aplicacions informatiques i professor associat al Master
+                        de Professorat de la Universitat Politecnica de Valencia, amb finalitats educatives,
+                        docents i d'investigacio.
+                    </p>
+                    <p>
+                        L'aplicacio esta allotjada en un servidor propi gestionat pel desenvolupador del projecte
+                        i utilitza Odoo com a sistema de gestio de dades.
+                    </p>
+                    <p>
+                        Excepte que es publique una formalitzacio expressa, esta aplicacio no s'ha de considerar
+                        un projecte oficial de la Universitat Politecnica de Valencia.
+                    </p>
+
+                    <h3 class="h5 mt-4">2. Finalitat</h3>
+                    <p>
+                        Les dades es tracten per gestionar l'accés al projecte, el seguiment de lectures,
+                        la validacio docent i les funcionalitats pedagògiques associades al passaport lector.
+                    </p>
+
+                    <h3 class="h5 mt-4">3. Dades tractades</h3>
+                    <ul>
+                        <li>Dades de centre: correu oficial, persona TIC de contacte.</li>
+                        <li>Dades de professorat: nom, correu professional i vinculacio a centre.</li>
+                        <li>Dades d'alumnat necessaries per al funcionament del projecte lector.</li>
+                    </ul>
+
+                    <h3 class="h5 mt-4">4. Base juridica</h3>
+                    <p>
+                        El tractament es fonamenta en l'interes public i en la prestacio del servei educatiu,
+                        d'acord amb la normativa aplicable en materia de proteccio de dades.
+                    </p>
+
+                    <h3 class="h5 mt-4">5. Conservacio i seguretat</h3>
+                    <p>
+                        S'apliquen mesures tecniques i organitzatives de seguretat. Els codis d'administracio
+                        no es guarden en text pla: unicament s'emmagatzema el hash criptografic.
+                    </p>
+
+                    <h3 class="h5 mt-4">6. Publicacio de continguts</h3>
+                    <p>
+                        Les ressenyes que es mostren en la web publica es publiquen de manera anonimitzada,
+                        sense exposar dades identificatives directes de l'alumnat.
+                    </p>
+
+                    <h3 class="h5 mt-4">7. Drets de les persones usuaries</h3>
+                    <p>
+                        Pots exercir els drets d'accés, rectificacio, supressio, oposicio, limitacio i portabilitat
+                        a traves del centre educatiu o dels canals oficials habilitats.
+                    </p>
+
+                    <h3 class="h5 mt-4">8. Contacte</h3>
+                    <p>
+                        Per a consultes de privacitat o incidencies, contacta amb el teu centre o amb
+                        <a href="mailto:joc-lector@provestalens.es">joc-lector@provestalens.es</a>.
+                    </p>
+                    <div class="jl-actions">
+                        <a class="jl-button secondary" href="/lectures">Tornar a Joc Lector</a>
+                    </div>
+                </div>
+            </article>
+        </t>
+    </template>
+
+    <template id="professor_invitation_page" name="Joc Lector - Invitacio professorat">
+        <t t-call="joc_lector.app_layout">
+            <section class="jl-hero">
+                <div class="jl-hero-icon">👤</div>
+                <h1>Invitació docent</h1>
+                <p>Accés segur per unir-te al centre en Joc Lector.</p>
+            </section>
+
+            <article class="jl-card jl-panel">
+                <div>
+                    <t t-if="status == 'pending'">
+                        <span class="jl-status">Invitació pendent</span>
+                        <h2>Uneix-te al centre <span t-esc="invitation.centre_id.name"/></h2>
+                        <p style="font-size: 18px; line-height: 1.55;">
+                            L'administracio del centre t'ha convidat a usar Joc Lector com a professor/a.
+                        </p>
+                        <p>
+                            En acceptar la invitacio es vinculara el teu correu
+                            <strong t-esc="invitation.email"/>
+                            amb este centre i es creara o activara el teu perfil docent.
+                            Des d'este perfil podras participar en la gestio educativa del projecte lector
+                            segons els permisos assignats pel centre.
+                        </p>
+                        <div class="jl-note">
+                            <strong>Privacitat:</strong>
+                            Joc Lector tracta dades de centre, professorat i alumnat amb finalitats educatives.
+                            Pots revisar la politica de privacitat abans d'acceptar.
+                            <a t-att-href="privacy_url">Llegir privacitat</a>
+                        </div>
+                        <p style="color: var(--jl-muted);">
+                            Esta invitacio caduca el <strong t-esc="expires_display"/> hora peninsular.
+                        </p>
+                        <form method="post" t-att-action="'/joc_lector/professor/invitacio?token=%s' % token" class="jl-actions">
+                            <button type="submit" class="jl-button">Acceptar invitacio</button>
+                            <a class="jl-button secondary" href="/lectures/privacitat">Veure privacitat</a>
+                        </form>
+                    </t>
+
+                    <t t-elif="status == 'accepted'">
+                        <span class="jl-status">Tot correcte</span>
+                        <h2>Invitacio acceptada</h2>
+                        <p style="font-size: 18px; line-height: 1.55;">
+                            El teu perfil docent ha quedat vinculat al centre
+                            <strong t-esc="invitation.centre_id.name"/>.
+                        </p>
+                        <p style="color: var(--jl-muted);">
+                            Ja pots tornar a l'app o iniciar sessio a la plataforma quan tingues les credencials corresponents.
+                        </p>
+                    </t>
+
+                    <t t-elif="status == 'already_accepted'">
+                        <span class="jl-status">Ja resolta</span>
+                        <h2>Invitacio ja acceptada</h2>
+                        <p>
+                            Esta invitacio ja es va utilitzar per vincular el professorat al centre
+                            <strong t-esc="invitation.centre_id.name"/>.
+                        </p>
+                        <div class="jl-actions">
+                            <a class="jl-button secondary" href="/lectures">Tornar a Joc Lector</a>
+                        </div>
+                    </t>
+
+                    <t t-elif="status == 'expired'">
+                        <span class="jl-status">Cal un enllaç nou</span>
+                        <h2>Invitacio caducada</h2>
+                        <p>
+                            Esta invitacio ja no es valida. Demana a l'administracio del centre que te'n reenvie una nova.
+                        </p>
+                        <div class="jl-actions">
+                            <a class="jl-button secondary" href="/lectures/privacitat">Veure privacitat</a>
+                        </div>
+                    </t>
+
+                    <t t-else="">
+                        <span class="jl-status">Enllaç no disponible</span>
+                        <h2>Invitacio no valida</h2>
+                        <p>
+                            L'enllac no es valid o ha sigut substituit per una invitacio mes recent. No has eixit de Joc Lector:
+                            pots tornar a obrir l'ultim correu rebut o demanar al centre que te'n reenvie un de nou.
+                        </p>
+                        <div class="jl-actions">
+                            <a class="jl-button secondary" href="/lectures">Tornar a Joc Lector</a>
+                            <a class="jl-button secondary" href="/lectures/privacitat">Privacitat</a>
+                        </div>
+                    </t>
+                </div>
+            </article>
+        </t>
+    </template>
+
+    <template id="professor_solicitud_action_page" name="Joc Lector - Revisio sollicitud professorat">
+        <t t-call="joc_lector.app_layout">
+            <section class="jl-hero">
+                <div class="jl-hero-icon">✓</div>
+                <h1>Revisió docent</h1>
+                <p>Confirma la sol·licitud abans de fer cap canvi al centre.</p>
+            </section>
+
+            <article class="jl-card jl-panel">
+                <t t-if="solicitud.estat == 'pendent'">
+                    <span class="jl-status">
+                        <t t-if="action == 'acceptar'">Aprovar accés</t>
+                        <t t-else="">Rebutjar accés</t>
+                    </span>
+                </t>
+                <t t-else="">
+                    <span class="jl-status">Sol·licitud <t t-esc="solicitud.estat"/></span>
+                </t>
+                <h2>Sol·licitud per a <span t-esc="centre.name"/></h2>
+                <div class="jl-note">
+                    <p><strong>Professor/a:</strong> <t t-esc="solicitud.professor_nom"/></p>
+                    <p><strong>Correu:</strong> <t t-esc="solicitud.professor_email"/></p>
+                    <p t-if="solicitud.notes"><strong>Missatge:</strong> <t t-esc="solicitud.notes"/></p>
+                </div>
+
+                <t t-if="solicitud.estat == 'pendent'">
+                    <form method="post" t-att-action="action_url" class="jl-actions">
+                        <t t-if="action == 'rebutjar'">
+                            <input class="jl-input" name="reason" placeholder="Motiu opcional"/>
+                        </t>
+                        <button type="submit" class="jl-button">
+                            <t t-if="action == 'acceptar'">Aprovar sol·licitud</t>
+                            <t t-else="">Rebutjar sol·licitud</t>
+                        </button>
+                        <a class="jl-button secondary" href="/lectures">Tornar a Joc Lector</a>
+                    </form>
+                </t>
+                <t t-else="">
+                    <p class="jl-copy">
+                        Este enllaç ja no pot modificar la sol·licitud perquè actualment està en estat
+                        <strong t-esc="solicitud.estat"/>.
+                    </p>
+                    <div class="jl-actions">
+                        <a class="jl-button secondary" href="/lectures">Tornar a Joc Lector</a>
+                    </div>
+                </t>
+            </article>
+        </t>
+    </template>
+
+    <template id="public_book_card" name="Joc Lector Public Book Card">
+        <div class="card h-100 shadow-sm">
+            <t t-if="llibre.portada_1920">
+                <img t-att-src="'/web/image/joc.lector.llibre/%s/portada_1920' % llibre.id" class="card-img-top" style="height: 220px; object-fit: cover;" t-att-alt="llibre.name"/>
+            </t>
+            <div class="card-body">
+                <h4 class="h5">
+                    <a t-att-href="'/lectures/llibre/%s' % llibre.slug" t-esc="llibre.name"/>
+                </h4>
+                <p class="text-muted mb-2" t-esc="llibre.autor or ''"/>
+                <div class="d-flex flex-wrap gap-2">
+                    <span class="badge bg-primary">
+                        <t t-esc="llibre.lectura_count"/> lectures
+                    </span>
+                    <span class="badge bg-success">
+                        <t t-esc="'%.1f' % llibre.valoracio_mitjana"/> / 5
+                    </span>
+                    <span t-if="llibre.categoria" class="badge bg-secondary" t-esc="llibre.categoria"/>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="public_review_card" name="Joc Lector Public Review Card">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h4 class="h5">
+                    <a t-att-href="'/lectures/ressenya/%s' % ressenya.slug">
+                        <t t-esc="ressenya.llibre_id.name"/>
+                    </a>
+                </h4>
+                <p class="text-muted mb-2" t-esc="ressenya.llibre_id.autor or ''"/>
+                <div class="mb-2">
+                    <span class="badge bg-success">
+                        <t t-esc="ressenya.valoracio"/> / 5
+                    </span>
+                    <span t-if="ressenya.curs_academic" class="badge bg-secondary">
+                        Curs <t t-esc="ressenya.curs_academic"/>
+                    </span>
+                </div>
+                <p t-esc="ressenya.text"/>
+                <p class="text-muted small mb-0">
+                    Ressenya anonimitzada.
+                </p>
+            </div>
+        </div>
+    </template>
+
+</odoo>

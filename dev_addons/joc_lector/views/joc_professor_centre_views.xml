@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_joc_lector_professor_centre_tree" model="ir.ui.view">
+        <field name="name">joc.lector.professor.centre.tree</field>
+        <field name="model">joc.lector.professor.centre</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="professor_id"/>
+                <field name="centre_id"/>
+                <field name="state"/>
+                <field name="solicitud_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_joc_lector_professor_centre_form" model="ir.ui.view">
+        <field name="name">joc.lector.professor.centre.form</field>
+        <field name="model">joc.lector.professor.centre</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="professor_id"/>
+                        <field name="centre_id"/>
+                        <field name="solicitud_id"/>
+                        <field name="state"/>
+                        <field name="date_start"/>
+                        <field name="date_end"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_joc_lector_professor_centre" model="ir.actions.act_window">
+        <field name="name">Professors per centre</field>
+        <field name="res_model">joc.lector.professor.centre</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

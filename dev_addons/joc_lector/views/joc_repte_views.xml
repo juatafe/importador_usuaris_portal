@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_joc_lector_repte_tree" model="ir.ui.view">
+        <field name="name">joc.lector.repte.tree</field>
+        <field name="model">joc.lector.repte</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="tipus"/>
+                <field name="centre_id"/>
+                <field name="classe_id"/>
+                <field name="curs_academic"/>
+                <field name="punts"/>
+                <field name="llibre_ids" widget="many2many_tags"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_joc_lector_repte_form" model="ir.ui.view">
+        <field name="name">joc.lector.repte.form</field>
+        <field name="model">joc.lector.repte</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="tipus"/>
+                            <field name="curs_academic"/>
+                            <field name="punts"/>
+                            <field name="llibre_ids" widget="many2many_tags"/>
+                        </group>
+                        <group>
+                            <field name="centre_id"/>
+                            <field name="classe_id"/>
+                            <field name="data_inici"/>
+                            <field name="data_fi"/>
+                            <field name="public"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Descripció">
+                            <field name="descripcio"/>
+                        </page>
+                        <page string="Bingo">
+                            <field name="bingo_casella_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="llibre_ids" widget="many2many_tags"/>
+                                    <field name="descripcio"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Participacions">
+                            <field name="participacio_ids">
+                                <tree editable="bottom">
+                                    <field name="alumne_id"/>
+                                    <field name="classe_id"/>
+                                    <field name="centre_id"/>
+                                    <field name="progres"/>
+                                    <field name="completat"/>
+                                    <field name="validat"/>
+                                    <field name="punts_generats"/>
+                                    <field name="lectura_ids" widget="many2many_tags"/>
+                                    <field name="bingo_casella_ids" widget="many2many_tags"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_joc_lector_repte" model="ir.actions.act_window">
+        <field name="name">Reptes</field>
+        <field name="res_model">joc.lector.repte</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

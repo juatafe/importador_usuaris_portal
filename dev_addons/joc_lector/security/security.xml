@@ -5,10 +5,121 @@
         <field name="category_id" ref="base.module_category_education"/>
     </record>
 
-    <record id="group_joc_lector_admin" model="res.groups">
-        <field name="name">Joc Lector / Administració</field>
+    <record id="group_joc_lector_admin_centre" model="res.groups">
+        <field name="name">Joc Lector / Admin Centre</field>
         <field name="category_id" ref="base.module_category_education"/>
         <field name="implied_ids" eval="[(4, ref('joc_lector.group_joc_lector_professor'))]"/>
+    </record>
+
+    <record id="group_joc_lector_admin" model="res.groups">
+        <field name="name">Joc Lector / Admin Sistema</field>
+        <field name="category_id" ref="base.module_category_education"/>
+        <field name="implied_ids" eval="[(4, ref('joc_lector.group_joc_lector_admin_centre'))]"/>
         <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+    </record>
+
+    <record id="rule_joc_lector_classe_professor" model="ir.rule">
+        <field name="name">Joc Lector classe professor</field>
+        <field name="model_id" ref="model_joc_lector_classe"/>
+        <field name="groups" eval="[(4, ref('joc_lector.group_joc_lector_professor'))]"/>
+        <field name="domain_force">['|',('professor_ids','in',[user.id]),('professor_joc_ids.user_id','=',user.id)]</field>
+    </record>
+
+    <record id="rule_joc_lector_classe_admin_centre" model="ir.rule">
+        <field name="name">Joc Lector classe admin centre</field>
+        <field name="model_id" ref="model_joc_lector_classe"/>
+        <field name="groups" eval="[(4, ref('joc_lector.group_joc_lector_admin_centre'))]"/>
+        <field name="domain_force">[('centre_id','in', user.joc_lector_professor_ids.centre_id.ids)]</field>
+    </record>
+
+    <record id="rule_joc_lector_classe_admin_all" model="ir.rule">
+        <field name="name">Joc Lector classe admin sistema</field>
+        <field name="model_id" ref="model_joc_lector_classe"/>
+        <field name="groups" eval="[(4, ref('joc_lector.group_joc_lector_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <record id="rule_joc_lector_lectura_professor" model="ir.rule">
+        <field name="name">Joc Lector lectura professor</field>
+        <field name="model_id" ref="model_joc_lector_lectura"/>
+        <field name="groups" eval="[(4, ref('joc_lector.group_joc_lector_professor'))]"/>
+        <field name="domain_force">['|',('classe_id.professor_ids','in',[user.id]),('classe_id.professor_joc_ids.user_id','=',user.id)]</field>
+    </record>
+
+    <record id="rule_joc_lector_lectura_admin_centre" model="ir.rule">
+        <field name="name">Joc Lector lectura admin centre</field>
+        <field name="model_id" ref="model_joc_lector_lectura"/>
+        <field name="groups" eval="[(4, ref('joc_lector.group_joc_lector_admin_centre'))]"/>
+        <field name="domain_force">[('centre_id','in', user.joc_lector_professor_ids.centre_id.ids)]</field>
+    </record>
+
+    <record id="rule_joc_lector_lectura_admin_all" model="ir.rule">
+        <field name="name">Joc Lector lectura admin sistema</field>
+        <field name="model_id" ref="model_joc_lector_lectura"/>
+        <field name="groups" eval="[(4, ref('joc_lector.group_joc_lector_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <record id="rule_joc_lector_alumne_professor" model="ir.rule">
+        <field name="name">Joc Lector alumne professor</field>
+        <field name="model_id" ref="model_joc_lector_alumne"/>
+        <field name="groups" eval="[(4, ref('joc_lector.group_joc_lector_professor'))]"/>
+        <field name="domain_force">['|',('matricula_ids.classe_id.professor_ids','in',[user.id]),('matricula_ids.classe_id.professor_joc_ids.user_id','=',user.id)]</field>
+    </record>
+
+    <record id="rule_joc_lector_alumne_admin_centre" model="ir.rule">
+        <field name="name">Joc Lector alumne admin centre</field>
+        <field name="model_id" ref="model_joc_lector_alumne"/>
+        <field name="groups" eval="[(4, ref('joc_lector.group_joc_lector_admin_centre'))]"/>
+        <field name="domain_force">[('centre_actual_id','in', user.joc_lector_professor_ids.centre_id.ids)]</field>
+    </record>
+
+    <record id="rule_joc_lector_alumne_admin_all" model="ir.rule">
+        <field name="name">Joc Lector alumne admin sistema</field>
+        <field name="model_id" ref="model_joc_lector_alumne"/>
+        <field name="groups" eval="[(4, ref('joc_lector.group_joc_lector_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <record id="rule_joc_lector_professor_solicitud_admin_centre" model="ir.rule">
+        <field name="name">Joc Lector solicitud professor admin centre</field>
+        <field name="model_id" ref="model_joc_lector_professor_solicitud"/>
+        <field name="groups" eval="[(4, ref('joc_lector.group_joc_lector_admin_centre'))]"/>
+        <field name="domain_force">[('centre_id','in', user.joc_lector_professor_ids.centre_id.ids)]</field>
+    </record>
+
+    <record id="rule_joc_lector_professor_solicitud_admin_all" model="ir.rule">
+        <field name="name">Joc Lector solicitud professor admin sistema</field>
+        <field name="model_id" ref="model_joc_lector_professor_solicitud"/>
+        <field name="groups" eval="[(4, ref('joc_lector.group_joc_lector_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <record id="rule_joc_lector_professor_invitation_admin_centre" model="ir.rule">
+        <field name="name">Joc Lector invitacio professor admin centre</field>
+        <field name="model_id" ref="model_joc_lector_professor_invitation"/>
+        <field name="groups" eval="[(4, ref('joc_lector.group_joc_lector_admin_centre'))]"/>
+        <field name="domain_force">[('centre_id','in', user.joc_lector_professor_ids.centre_id.ids)]</field>
+    </record>
+
+    <record id="rule_joc_lector_professor_invitation_admin_all" model="ir.rule">
+        <field name="name">Joc Lector invitacio professor admin sistema</field>
+        <field name="model_id" ref="model_joc_lector_professor_invitation"/>
+        <field name="groups" eval="[(4, ref('joc_lector.group_joc_lector_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <record id="rule_joc_lector_professor_centre_admin_centre" model="ir.rule">
+        <field name="name">Joc Lector professor centre admin centre</field>
+        <field name="model_id" ref="model_joc_lector_professor_centre"/>
+        <field name="groups" eval="[(4, ref('joc_lector.group_joc_lector_admin_centre'))]"/>
+        <field name="domain_force">[('centre_id','in', user.joc_lector_professor_ids.centre_id.ids)]</field>
+    </record>
+
+    <record id="rule_joc_lector_professor_centre_admin_all" model="ir.rule">
+        <field name="name">Joc Lector professor centre admin sistema</field>
+        <field name="model_id" ref="model_joc_lector_professor_centre"/>
+        <field name="groups" eval="[(4, ref('joc_lector.group_joc_lector_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
     </record>
 </odoo>

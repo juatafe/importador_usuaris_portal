@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_joc_lector_punts_moviment_tree" model="ir.ui.view">
+        <field name="name">joc.lector.punts.moviment.tree</field>
+        <field name="model">joc.lector.punts.moviment</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="data"/>
+                <field name="alumne_id"/>
+                <field name="classe_id"/>
+                <field name="centre_id"/>
+                <field name="origen"/>
+                <field name="lectura_id"/>
+                <field name="repte_id"/>
+                <field name="punts"/>
+                <field name="motiu"/>
+                <field name="curs_academic"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_joc_lector_punts_moviment_form" model="ir.ui.view">
+        <field name="name">joc.lector.punts.moviment.form</field>
+        <field name="model">joc.lector.punts.moviment</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="data"/>
+                        <field name="alumne_id"/>
+                        <field name="classe_id"/>
+                        <field name="centre_id"/>
+                        <field name="origen"/>
+                        <field name="lectura_id"/>
+                        <field name="repte_id"/>
+                        <field name="punts"/>
+                        <field name="motiu"/>
+                        <field name="curs_academic"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_joc_lector_punts_moviment" model="ir.actions.act_window">
+        <field name="name">Moviments de punts</field>
+        <field name="res_model">joc.lector.punts.moviment</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

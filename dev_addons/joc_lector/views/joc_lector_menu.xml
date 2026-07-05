@@ -7,10 +7,72 @@
         groups="joc_lector.group_joc_lector_professor,joc_lector.group_joc_lector_admin"/>
 
     <menuitem
+        id="menu_joc_lector_biblioteca"
+        name="Biblioteca"
+        parent="menu_joc_lector_root"
+        sequence="10"/>
+
+    <menuitem
+        id="menu_joc_lector_llibre"
+        name="Llibres"
+        parent="menu_joc_lector_biblioteca"
+        action="action_joc_lector_llibre"
+        sequence="10"/>
+
+    <menuitem
+        id="menu_joc_lector_lectura"
+        name="Lectures"
+        parent="menu_joc_lector_root"
+        action="action_joc_lector_lectura"
+        sequence="20"/>
+
+    <menuitem
+        id="menu_joc_lector_repte"
+        name="Reptes"
+        parent="menu_joc_lector_root"
+        action="action_joc_lector_repte"
+        sequence="25"/>
+
+    <menuitem
+        id="menu_joc_lector_ressenya"
+        name="Ressenyes"
+        parent="menu_joc_lector_root"
+        action="action_joc_lector_ressenya"
+        sequence="30"/>
+
+    <menuitem
+        id="menu_joc_lector_classe"
+        name="Classes"
+        parent="menu_joc_lector_root"
+        action="action_joc_lector_classe"
+        sequence="40"/>
+
+    <menuitem
+        id="menu_joc_lector_alumne"
+        name="Alumnat"
+        parent="menu_joc_lector_root"
+        action="action_joc_lector_alumne"
+        sequence="50"/>
+
+    <menuitem
+        id="menu_joc_lector_passaport"
+        name="Passaports lectors"
+        parent="menu_joc_lector_root"
+        action="action_joc_lector_passaport"
+        sequence="60"/>
+
+    <menuitem
+        id="menu_joc_lector_punts_moviment"
+        name="Moviments de punts"
+        parent="menu_joc_lector_root"
+        action="action_joc_lector_punts_moviment"
+        sequence="70"/>
+
+    <menuitem
         id="menu_joc_lector_config"
         name="Configuració"
         parent="menu_joc_lector_root"
-        sequence="10"/>
+        sequence="90"/>
 
     <menuitem
         id="menu_joc_lector_centre"
@@ -20,23 +82,23 @@
         sequence="10"/>
 
     <menuitem
-        id="menu_joc_lector_classe"
-        name="Classes"
-        parent="menu_joc_lector_root"
-        action="action_joc_lector_classe"
+        id="menu_joc_lector_professor"
+        name="Professorat"
+        parent="menu_joc_lector_config"
+        action="action_joc_lector_professor"
         sequence="20"/>
 
     <menuitem
-        id="menu_joc_lector_alumne"
-        name="Alumnat"
-        parent="menu_joc_lector_root"
-        action="action_joc_lector_alumne"
+        id="menu_joc_lector_professor_solicitud"
+        name="Sol.licituds professorat"
+        parent="menu_joc_lector_config"
+        action="action_joc_lector_professor_solicitud"
         sequence="30"/>
 
     <menuitem
-        id="menu_joc_lector_passaport"
-        name="Passaports lectors"
-        parent="menu_joc_lector_root"
-        action="action_joc_lector_passaport"
+        id="menu_joc_lector_professor_centre"
+        name="Professors per centre"
+        parent="menu_joc_lector_config"
+        action="action_joc_lector_professor_centre"
         sequence="40"/>
 </odoo>

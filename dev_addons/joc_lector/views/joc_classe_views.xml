@@ -8,7 +8,10 @@
                 <field name="name"/>
                 <field name="centre_id"/>
                 <field name="curs_academic"/>
+                <field name="curs_grup"/>
                 <field name="access_code"/>
+                <field name="nivell"/>
+                <field name="ranking_classe_actiu"/>
                 <field name="alumne_count"/>
                 <field name="active"/>
             </tree>
@@ -24,11 +27,16 @@
                     <group>
                         <group>
                             <field name="name"/>
+                            <field name="nom_normalitzat" readonly="1"/>
                             <field name="centre_id"/>
                             <field name="curs_academic"/>
+                            <field name="curs_grup"/>
+                            <field name="curs_grup_normalitzat" readonly="1"/>
+                            <field name="nivell"/>
                         </group>
                         <group>
                             <field name="access_code"/>
+                            <field name="ranking_classe_actiu"/>
                             <field name="active"/>
                             <field name="alumne_count"/>
                         </group>
@@ -37,6 +45,7 @@
                     <notebook>
                         <page string="Professorat">
                             <field name="professor_ids" widget="many2many_tags"/>
+                            <field name="professor_joc_ids" widget="many2many_tags"/>
                         </page>
                         <page string="Alumnat">
                             <field name="matricula_ids">
@@ -44,7 +53,7 @@
                                     <field name="alumne_id"/>
                                     <field name="date_start"/>
                                     <field name="date_end"/>
-                                    <field name="active"/>
+                                    <field name="state"/>
                                 </tree>
                             </field>
                         </page>

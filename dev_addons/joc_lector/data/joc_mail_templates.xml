@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="mail_template_joc_lector_centre_admin_code_created" model="mail.template">
+            <field name="name">Joc Lector - Centre creat i codi admin</field>
+            <field name="model_id" ref="model_joc_lector_centre"/>
+            <field name="subject">Joc Lector: codi d'administracio del centre</field>
+            <field name="email_from">Joc Lector &lt;joc-lector@provestalens.es&gt;</field>
+            <field name="email_to">{{ object.email_oficial }}</field>
+            <field name="body_html" type="html">
+                <div>
+                    <p>Hola,</p>
+                    <p>El centre <strong><t t-out="object.name or ''"/></strong> ha sigut registrat al Joc Lector.</p>
+                    <p>Codi d'administracio: <strong><t t-out="ctx.get('admin_code') or '---'"/></strong></p>
+                    <p>Guarda'l en un lloc segur. Per seguretat no es guarda en pla.</p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <record id="mail_template_joc_lector_centre_duplicate_attempt" model="mail.template">
+            <field name="name">Joc Lector - Intent de registre duplicat</field>
+            <field name="model_id" ref="model_joc_lector_centre"/>
+            <field name="subject">Joc Lector: intent de registre d'un centre ja existent</field>
+            <field name="email_from">Joc Lector &lt;joc-lector@provestalens.es&gt;</field>
+            <field name="email_to">{{ object.email_oficial }}</field>
+            <field name="body_html" type="html">
+                <div>
+                    <p>S'ha detectat un intent de registre duplicat del centre <strong><t t-out="object.name or ''"/></strong>.</p>
+                    <p>Contacte TIC actual: <strong><t t-out="object.tic_email or 'no definit'"/></strong>.</p>
+                    <p>Si no reconeixes la sollicitud, revisa l'acces del centre.</p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <record id="mail_template_joc_lector_professor_pending" model="mail.template">
+            <field name="name">Joc Lector - Sol.licitud professor pendent</field>
+            <field name="model_id" ref="model_joc_lector_professor_solicitud"/>
+            <field name="subject">Joc Lector: nova sollicitud de professorat pendent</field>
+            <field name="email_from">Joc Lector &lt;joc-lector@provestalens.es&gt;</field>
+            <field name="email_to">{{ object.centre_email_oficial }}</field>
+            <field name="body_html" type="html">
+                <div>
+                    <p>Hola,</p>
+                    <t t-if="ctx.get('courtesy_copy')">
+                        <p><strong>Copia de cortesia per al correu oficial del centre.</strong></p>
+                        <p>
+                            La sol.licitud s'ha enviat al contacte TIC del centre perque puga aprovar-la
+                            o rebutjar-la directament.
+                        </p>
+                    </t>
+                    <p>Hi ha una nova sollicitud de professorat pendent:</p>
+                    <ul>
+                        <li>Centre: <strong><t t-out="object.centre_id.name or ''"/></strong></li>
+                        <li>Professor/a: <strong><t t-out="object.professor_nom or ''"/></strong></li>
+                        <li>Email: <strong><t t-out="object.professor_email or ''"/></strong></li>
+                    </ul>
+                    <p t-if="object.notes">
+                        Missatge de la sollicitud: <t t-out="object.notes"/>
+                    </p>
+                    <p>Pots decidir amb els enllacos temporals:</p>
+                    <p><a t-att-href="ctx.get('accept_url')">Acceptar professorat</a></p>
+                    <p><a t-att-href="ctx.get('reject_url')">Rebutjar sollicitud</a></p>
+                    <p>Caduca: <t t-out="ctx.get('token_expires') or ''"/></p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <record id="mail_template_joc_lector_professor_accepted" model="mail.template">
+            <field name="name">Joc Lector - Professor acceptat</field>
+            <field name="model_id" ref="model_joc_lector_professor_solicitud"/>
+            <field name="subject">Joc Lector: sollicitud acceptada</field>
+            <field name="email_from">Joc Lector &lt;joc-lector@provestalens.es&gt;</field>
+            <field name="email_to">{{ object.professor_email }}</field>
+            <field name="body_html" type="html">
+                <div>
+                    <p>La teua sollicitud d'acces al centre <strong><t t-out="ctx.get('centre_name') or object.centre_id.name or ''"/></strong> ha sigut acceptada.</p>
+                    <p>Ja pots continuar amb la configuracio docent del Joc Lector.</p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <record id="mail_template_joc_lector_professor_rejected" model="mail.template">
+            <field name="name">Joc Lector - Professor rebutjat</field>
+            <field name="model_id" ref="model_joc_lector_professor_solicitud"/>
+            <field name="subject">Joc Lector: sollicitud rebutjada</field>
+            <field name="email_from">Joc Lector &lt;joc-lector@provestalens.es&gt;</field>
+            <field name="email_to">{{ object.professor_email }}</field>
+            <field name="body_html" type="html">
+                <div>
+                    <p>La teua sollicitud d'acces al centre <strong><t t-out="ctx.get('centre_name') or object.centre_id.name or ''"/></strong> ha sigut rebutjada.</p>
+                    <p>Motiu: <t t-out="ctx.get('rejection_reason') or object.motiu_rebuig or 'No indicat'"/></p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <record id="mail_template_joc_lector_admin_code_regenerated" model="mail.template">
+            <field name="name">Joc Lector - Regeneracio codi admin</field>
+            <field name="model_id" ref="model_joc_lector_centre"/>
+            <field name="subject">Joc Lector: nou codi d'administracio</field>
+            <field name="email_from">Joc Lector &lt;joc-lector@provestalens.es&gt;</field>
+            <field name="email_to">{{ object.email_oficial }}</field>
+            <field name="body_html" type="html">
+                <div>
+                    <p>S'ha regenerat el codi d'administracio del centre <strong><t t-out="object.name or ''"/></strong>.</p>
+                    <p>Nou codi: <strong><t t-out="ctx.get('admin_code') or '---'"/></strong></p>
+                    <p>Per seguretat el sistema nomes guarda el hash del codi.</p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <record id="mail_template_joc_lector_professor_invitation" model="mail.template">
+            <field name="name">Joc Lector - Invitacio professorat</field>
+            <field name="model_id" ref="model_joc_lector_professor_invitation"/>
+            <field name="subject">Joc Lector: invitacio al centre {{ object.centre_id.name }}</field>
+            <field name="email_from">Joc Lector &lt;joc-lector@provestalens.es&gt;</field>
+            <field name="email_to">{{ object.email }}</field>
+            <field name="body_html" type="html">
+                <div>
+                    <p>Hola,</p>
+                    <p>
+                        L'administracio del centre <strong><t t-out="object.centre_id.name or ''"/></strong>
+                        t'ha convidat a participar en Joc Lector com a professor/a.
+                    </p>
+                    <p>
+                        Joc Lector es una plataforma educativa per gestionar lectures, validacions docents
+                        i activitats del passaport lector. Si acceptes, el teu correu
+                        <strong><t t-out="object.email or ''"/></strong> quedara vinculat a este centre.
+                    </p>
+                    <p style="margin: 24px 0;">
+                        <a t-att-href="ctx.get('invite_url')" style="background-color:#714B67; color:#fff; padding:12px 18px; text-decoration:none; border-radius:4px; display:inline-block;">
+                            Acceptar invitacio
+                        </a>
+                    </p>
+                    <p>
+                        Abans d'acceptar pots revisar la
+                        <a t-att-href="ctx.get('privacy_url')">politica de privacitat de Joc Lector</a>.
+                    </p>
+                    <p>
+                        Esta invitacio caduca el
+                        <strong><t t-out="ctx.get('invitation_expires_display') or object.expires_at or ''"/></strong>
+                        hora peninsular.
+                    </p>
+                    <p style="color:#666;">
+                        Si no esperaves esta invitacio, pots ignorar este correu.
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+        <record id="mail_template_joc_lector_professor_auth_code" model="mail.template">
+            <field name="name">Joc Lector - Codi acces docent</field>
+            <field name="model_id" ref="model_joc_lector_professor_auth_code"/>
+            <field name="subject">Joc Lector: codi d'acces docent</field>
+            <field name="email_from">Joc Lector &lt;joc-lector@provestalens.es&gt;</field>
+            <field name="email_to">{{ object.email }}</field>
+            <field name="body_html" type="html">
+                <div>
+                    <p>Hola,</p>
+                    <p>Has demanat entrar a la gestio docent de Joc Lector.</p>
+                    <p>Codi temporal: <strong><t t-out="ctx.get('professor_code') or '---'"/></strong></p>
+                    <p>Caduca el <strong><t t-out="ctx.get('code_expires_display') or object.date_expires or ''"/></strong> hora peninsular.</p>
+                    <p style="color:#666;">Si no has demanat este codi, pots ignorar este correu.</p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+    </data>
+</odoo>

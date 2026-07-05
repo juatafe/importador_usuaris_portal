@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_joc_lector_llibre_tree" model="ir.ui.view">
+        <field name="name">joc.lector.llibre.tree</field>
+        <field name="model">joc.lector.llibre</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="autor"/>
+                <field name="isbn"/>
+                <field name="pagines"/>
+                <field name="idioma"/>
+                <field name="nivell_recomanat"/>
+                <field name="categoria"/>
+                <field name="lectura_count"/>
+                <field name="ressenya_count"/>
+                <field name="valoracio_mitjana"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_joc_lector_llibre_form" model="ir.ui.view">
+        <field name="name">joc.lector.llibre.form</field>
+        <field name="model">joc.lector.llibre</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="autor"/>
+                            <field name="isbn"/>
+                            <field name="editorial"/>
+                            <field name="pagines"/>
+                            <field name="any_publicacio"/>
+                            <field name="idioma"/>
+                            <field name="nivell_recomanat"/>
+                            <field name="portada_url"/>
+                            <field name="categoria"/>
+                            <field name="edat_recomanada"/>
+                            <field name="slug" readonly="1"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="portada_1920" widget="image"/>
+                            <field name="lectura_count" readonly="1"/>
+                            <field name="ressenya_count" readonly="1"/>
+                            <field name="valoracio_mitjana" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Resum">
+                            <field name="resum"/>
+                        </page>
+                        <page string="Lectures">
+                            <field name="lectura_ids">
+                                <tree>
+                                    <field name="alumne_id"/>
+                                    <field name="classe_id"/>
+                                    <field name="curs_academic"/>
+                                    <field name="state"/>
+                                    <field name="date_start"/>
+                                    <field name="date_end"/>
+                                    <field name="punts_obtinguts"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Ressenyes">
+                            <field name="ressenya_ids">
+                                <tree>
+                                    <field name="alumne_id"/>
+                                    <field name="classe_id"/>
+                                    <field name="curs_academic"/>
+                                    <field name="valoracio"/>
+                                    <field name="publicable"/>
+                                    <field name="aprovada"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_joc_lector_llibre" model="ir.actions.act_window">
+        <field name="name">Llibres</field>
+        <field name="res_model">joc.lector.llibre</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

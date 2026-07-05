@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_joc_lector_centre_admin_code_wizard_form" model="ir.ui.view">
+        <field name="name">joc.lector.centre.admin.code.wizard.form</field>
+        <field name="model">joc.lector.centre.admin.code.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Nou codi d'administracio" create="false" edit="false" delete="false">
+                <sheet>
+                    <group>
+                        <field name="centre_id" readonly="1"/>
+                        <field name="admin_code" readonly="1"/>
+                        <field name="info_message" readonly="1" nolabel="1"/>
+                    </group>
+                    <footer>
+                        <button string="Tancar" class="btn-primary" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

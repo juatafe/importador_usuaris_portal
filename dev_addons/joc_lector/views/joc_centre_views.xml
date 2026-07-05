@@ -7,6 +7,12 @@
             <tree>
                 <field name="name"/>
                 <field name="code"/>
+                <field name="email_oficial"/>
+                <field name="tic_email"/>
+                <field name="municipi"/>
+                <field name="estat"/>
+                <field name="ranking_public"/>
+                <field name="web_publica_activa"/>
                 <field name="active"/>
             </tree>
         </field>
@@ -17,11 +23,31 @@
         <field name="model">joc.lector.centre</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <button name="action_regenerate_admin_code" type="object" string="Regenerar codi admin" class="oe_highlight" groups="joc_lector.group_joc_lector_admin,joc_lector.group_joc_lector_admin_centre"/>
+                </header>
                 <sheet>
                     <group>
-                        <field name="name"/>
-                        <field name="code"/>
-                        <field name="active"/>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="email_oficial"/>
+                            <field name="municipi"/>
+                            <field name="estat"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="tic_nom"/>
+                            <field name="tic_email"/>
+                            <field name="admin_code_last_sent" readonly="1"/>
+                            <field name="admin_code_expires_at" readonly="1"/>
+                            <field name="admin_verified" readonly="1"/>
+                            <field name="admin_user_id"/>
+                            <field name="admin_login_fail_count" readonly="1"/>
+                            <field name="admin_login_blocked_until" readonly="1"/>
+                            <field name="ranking_public"/>
+                            <field name="web_publica_activa"/>
+                        </group>
                     </group>
                     <notebook>
                         <page string="Classes">
@@ -32,6 +58,16 @@
                                     <field name="access_code"/>
                                     <field name="alumne_count"/>
                                     <field name="active"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Sol.licituds professorat">
+                            <field name="professor_solicitud_ids">
+                                <tree>
+                                    <field name="create_date"/>
+                                    <field name="professor_nom"/>
+                                    <field name="professor_email"/>
+                                    <field name="estat"/>
                                 </tree>
                             </field>
                         </page>

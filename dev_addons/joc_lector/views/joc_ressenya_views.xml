@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_joc_lector_ressenya_tree" model="ir.ui.view">
+        <field name="name">joc.lector.ressenya.tree</field>
+        <field name="model">joc.lector.ressenya</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="llibre_id"/>
+                <field name="alumne_id"/>
+                <field name="classe_id"/>
+                <field name="curs_academic"/>
+                <field name="valoracio"/>
+                <field name="publicable"/>
+                <field name="aprovada"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_joc_lector_ressenya_form" model="ir.ui.view">
+        <field name="name">joc.lector.ressenya.form</field>
+        <field name="model">joc.lector.ressenya</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="lectura_id"/>
+                            <field name="alumne_id"/>
+                            <field name="llibre_id"/>
+                            <field name="classe_id"/>
+                            <field name="curs_academic" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="valoracio"/>
+                            <field name="publicable"/>
+                            <field name="aprovada"/>
+                            <field name="slug" readonly="1"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Ressenya">
+                            <field name="text"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_joc_lector_ressenya" model="ir.actions.act_window">
+        <field name="name">Ressenyes</field>
+        <field name="res_model">joc.lector.ressenya</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>
